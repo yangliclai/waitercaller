@@ -1,1 +1,3 @@
 waitercaller.conf
+config.py
+*.pyc
