@@ -1,5 +1,5 @@
 import pymongo
-from bson import ObjectId
+from bson.objectid import ObjectId
 
 DATABASE = "waitercaller"
 
