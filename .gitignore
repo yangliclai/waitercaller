@@ -1,3 +1,5 @@
 waitercaller.conf
 config.py
 *.pyc
+main.py
+dbhelpertest.py 
