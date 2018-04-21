@@ -21,5 +21,6 @@ class BitlyHelper:
             response = urllib2.urlopen(url).read()
             jr = json.loads(response)
             return jr['data']['url']
+            #return url
         except Exception as e:
             print(e)

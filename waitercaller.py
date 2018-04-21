@@ -53,7 +53,7 @@ def login():
             return redirect(url_for('account'))
         form.loginemail.errors.append("Email or password invalid")
     return render_template("home.html", loginform=form, registrationform=RegistrationForm())
-
+BitlyHelper()
 @app.route("/register", methods=["POST"])
 def register():
     form = RegistrationForm(request.form)
@@ -125,6 +125,9 @@ def account_createtable():
     if form.validate():
         tableid = DB.add_table(form.tablenumber.data, current_user.get_id())
         new_url = BH.shorten_url(config.base_url + "newrequest/" + str(tableid))
+        formtemp = ResolveForm(request.form) #--specially add for teamporarily delete redundant request.
+        request_id = request.args.get("request_id") # ditto
+        DB.delete_request(request_id)   # ditto
         DB.update_table(tableid, new_url)
         return redirect(url_for('account'))
     return render_template("account.html", createtableform=form, tables=DB.get_tables(current_user.get_id()))
