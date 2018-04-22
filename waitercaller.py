@@ -135,6 +135,7 @@ def account_createtable():
             #DB.delete_request_redundancy(tableid) 
         #DB.delete_table_fulltest(tableid02)
         return redirect(url_for('account'))
+        # the delete action must in anoter new thread. I try more and fail within the same if form.v..().
         DB.delete_request_redundancy(tableid) 
     return render_template("account.html", createtableform=form, tables=DB.get_tables(current_user.get_id()))
 
@@ -147,8 +148,7 @@ def account_deletetable():
 
 @app.route("/newrequest/<tid>")
 def new_request(tid):
-    if flagfromtable == 1:
-        DB.add_request(tid, datetime.datetime.now())
+    DB.add_request(tid, datetime.datetime.now())
     return "Your request has been logged and a waiter will be with you shortly"
 
 
