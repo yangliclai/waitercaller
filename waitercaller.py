@@ -148,11 +148,8 @@ def account_deletetable():
 
 @app.route("/newrequest/<tid>")
 def new_request(tid):
-    form = CreateTableForm(request.form)
-    if form.validate():
-        tableid = DB.add_table(form.tablenumber.data, current_user.get_id())
-        DB.delete_request_redundancy(tableid)
     DB.add_request(tid, datetime.datetime.now())
+    DB.delete_request_redundancy(tid) 
     return "Your request has been logged and a waiter will be with you shortly"
 
 
