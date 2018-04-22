@@ -51,7 +51,7 @@ class DBHelper:
 
     def delete_request_redundancy(self, table_id):
         table03 = self.get_table(table_id)
-        self.db.requests.remove({"owner": table03['owner']})
+        self.db.requests.remove({"owner": table03['owner'],"table_number": table03['number']})
 
     def get_requests(self, owner_id):
         return list(self.db.requests.find({"owner": owner_id}))
