@@ -126,7 +126,9 @@ def account_createtable():
         tableid = DB.add_table(form.tablenumber.data, current_user.get_id())
         new_url = BH.shorten_url(config.base_url + "newrequest/" + str(tableid))        
         DB.update_table(tableid, new_url)
-        DB.delete_redundant_request(tableid)
+        #tableid02 = DB.add_table_fulltest(form.tablenumber.data, current_user.get_id(),new_url)
+        #DB.delete_table_fulltest(tableid02)
+        DB.delete_request_redundancy(tableid)
         return redirect(url_for('account'))
     
     return render_template("account.html", createtableform=form, tables=DB.get_tables(current_user.get_id()))

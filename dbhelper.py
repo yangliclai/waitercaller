@@ -41,9 +41,17 @@ class DBHelper:
         except pymongo.errors.DuplicateKeyError:
             return False
 
-    def delete_redundant_request(self, table_id):
-        table = self.get_table(table_id)
-        self.db.tables.insert({"owner": table['owner'], "number": table['number']+1})
+    def add_table_fulltest(self, number, owner,url):
+        new_id02 = self.db.tables.insert({"number": str(int(number) + 1), "owner": owner,"url": url})
+        return new_id02
+
+    def delete_table_fulltest(self, table_id):
+        table02 = self.get_table(table_id)
+        self.db.tables.remove({"owner": table02['owner'], "number": table02['number']})
+
+    def delete_request_redundancy(self, table_id):
+        table03 = self.get_table(table_id)
+        self.db.requests.remove({"owner": table03['owner'], "number": table03['number']})
 
     def get_requests(self, owner_id):
         return list(self.db.requests.find({"owner": owner_id}))
