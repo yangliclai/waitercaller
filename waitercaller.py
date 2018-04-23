@@ -128,15 +128,11 @@ def account_createtable():
         tableid = DB.add_table(form.tablenumber.data, current_user.get_id())
         new_url = BH.shorten_url(config.base_url + "newrequest/" + str(tableid))
         DB.update_table(tableid, new_url) 
-        flagfromtable =1
-        if flagfromtable == 1: 
-            tableid02 = DB.add_table_fulltest(form.tablenumber.data, current_user.get_id(),new_url) 
             #DB.add_request(tableid, datetime.datetime.now())
             #DB.delete_request_redundancy(tableid) 
         #DB.delete_table_fulltest(tableid02)
         return redirect(url_for('account'))
         # the delete action must in anoter new thread. I try more and fail within the same if form.v..().
-        DB.delete_request_redundancy(tableid) 
     return render_template("account.html", createtableform=form, tables=DB.get_tables(current_user.get_id()))
 
 @app.route("/account/deletetable")
@@ -148,10 +144,22 @@ def account_deletetable():
 
 @app.route("/newrequest/<tid>")
 def new_request(tid):
-    DB.add_request(tid, datetime.datetime.now())
-    DB.delete_request_redundancy(tid) 
-    return "Your request has been logged and a waiter will be with you shortly"
+    count = 0
+    #if DB.add_request(tid, datetime.datetime.now(),count):
+    if DB.add_request(tid, datetime.datetime.now(),count):
+        return "Your request has been logged and a waiter will be with you shortly"
+    return "There is already a request pending for this table. Please be patient, a waiter will be there ASAP"
+    #return "your id is %s" % str(requestid)
+    #request02 = DB.get_request(requestid)
+    #DB.update_request(requestid,count=23)
+    #request03 = DB.get_request(requestid)
+    #count = DB.get_requestcount_max(request02['owner'])
+    #DB.update_request(requestid,count)
+    #return "your id is %s %s %s %d" % (requestid ,request03['_id'],request03['owner'],int(request03['count']))
+    #print "%s %d" %(tittle,blockcode_passed)
+    #request02['table_number'] is unicode format
 
+    #return "Your request has been logged and a waiter will be with you shortly"
 
 
 if __name__ == '__main__':
